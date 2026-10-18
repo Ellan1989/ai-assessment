@@ -1,69 +1,88 @@
-import Image from "next/image";
+import Link from "next/link";
+import StartButton from "@/components/StartButton";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="flex-1 bg-slate-50">
+      {/* hero */}
+      <section className="mx-auto max-w-5xl px-6 pt-20 pb-16 text-center">
+        <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">Free assessment · No signup to start</p>
+        <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight text-slate-900">
+          Find your business&apos;s best AI opportunity — in about 7 minutes
+        </h1>
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
+          Answer plain-English questions about how your business actually runs. Get a personalised report:
+          2–3 opportunities matched to your answers, an indicative value range, the risks that matter, and a
+          90-day plan to validate them.
+        </p>
+        <div className="mt-10 flex flex-col items-center gap-3">
+          <StartButton />
+          <p className="text-sm text-slate-500">
+            Anonymous until you choose to receive your report · ~20 questions · &ldquo;Not sure&rdquo; always allowed
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* what you get */}
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto grid max-w-5xl gap-8 px-6 py-14 sm:grid-cols-3">
+          {[
+            {
+              title: "2–3 matched opportunities",
+              body: "Not a generic AI pitch. Recommendations come from your industry, bottlenecks, data and systems — including the honest answer that rules-based automation or doing nothing may beat an AI agent.",
+            },
+            {
+              title: "Transparent value estimate",
+              body: "See the current annual hours behind the work, a conservative-to-optimistic range, and every assumption behind it. Time value is shown as time value — never dressed up as cash savings.",
+            },
+            {
+              title: "Risks and a 90-day path",
+              body: "Hard risk gates (sensitive data, no human review, high-stakes errors) are surfaced before recommendations. Then a validate → pilot → decide roadmap, sized for an SME.",
+            },
+          ].map((card) => (
+            <div key={card.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+              <h2 className="font-semibold text-slate-900">{card.title}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{card.body}</p>
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* how it works */}
+      <section className="mx-auto max-w-5xl px-6 py-16">
+        <h2 className="text-center text-2xl font-semibold text-slate-900">How it works</h2>
+        <ol className="mt-10 grid gap-8 sm:grid-cols-4">
+          {[
+            ["1", "Answer ~20 questions", "Multiple choice, with sensible bands. Progress autosaves — you can come back within 7 days."],
+            ["2", "See your preview", "Your top finding, opportunities and value range appear before you hand over anything."],
+            ["3", "Get the full report", "Enter your email to unlock the full report — web page plus PDF, sent as a secure link."],
+            ["4", "Decide with numbers", "Validate the assumptions, run a small pilot, then scale what actually works."],
+          ].map(([n, title, body]) => (
+            <li key={n} className="relative rounded-2xl border border-slate-200 bg-white p-6">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-700 text-sm font-bold text-white">{n}</span>
+              <h3 className="mt-3 font-semibold text-slate-900">{title}</h3>
+              <p className="mt-1.5 text-sm text-slate-600">{body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* privacy strip */}
+      <section className="border-t border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 px-6 py-12 text-center">
+          <p className="text-sm text-slate-600">
+            We only collect what the assessment needs. Your answers stay anonymous until you ask for your report.
+            Marketing emails are opt-in only and never pre-ticked.
+          </p>
+          <Link href="/privacy" className="text-sm font-medium text-blue-700 underline underline-offset-4">
+            Read the privacy notice
+          </Link>
+        </div>
+      </section>
+
+      <footer className="border-t border-slate-200 bg-slate-50 py-8 text-center text-xs text-slate-500">
+        An initial opportunity assessment — not a guarantee of savings, and not a formal security, legal or compliance audit.
+      </footer>
+    </main>
   );
 }
