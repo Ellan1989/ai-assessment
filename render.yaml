@@ -1,0 +1,50 @@
+# Render deployment blueprint (https://render.com)
+#
+# Setup: create a Render account (sign in with GitHub) → New → Blueprint →
+# select this repository → apply. Everything below is configured already;
+# only set the secret env vars in the dashboard after the first deploy:
+#   APP_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD (and optionally LLM_API_KEY).
+#
+# Cost: Starter instance ~US$7/month, includes a 1GB persistent disk —
+# enough for years of SQLite assessments and generated PDFs.
+
+services:
+  - type: web
+    name: ai-assessment
+    runtime: node
+    plan: starter
+    region: singapore # closest to AU with good latency; switch to oregon if preferred
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    autoDeploy: true # every git push to main redeploys automatically
+    disk:
+      name: data
+      mountPath: /app/.data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: APP_BASE_URL
+        sync: false # set to your public URL, e.g. https://assess.yourdomain.com.au
+      - key: DATABASE_PATH
+        value: /app/.data/app.db
+      - key: ASSESSMENT_TTL_DAYS
+        value: "7"
+      - key: REPORT_TTL_DAYS
+        value: "30"
+      - key: APP_SECRET
+        sync: false # required — generate with: openssl rand -hex 32
+      - key: ADMIN_EMAIL
+        sync: false # required
+      - key: ADMIN_PASSWORD
+        sync: false # required
+      - key: LLM_BASE_URL
+        value: https://api.openai.com/v1
+      - key: LLM_MODEL
+        value: gpt-4o-mini
+      - key: LLM_API_KEY
+        sync: false # optional — enables AI-personalised report narratives
+      - key: EMAIL_PROVIDER
+        value: console # switch to "resend" + RESEND_API_KEY when going live
+      - key: RESEND_API_KEY
+        sync: false

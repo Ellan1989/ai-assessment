@@ -56,6 +56,31 @@ weights, risk gates and value formulas.
 
 ## Deployment & rollback
 
+### Managed hosting (Render — recommended, ~US$7/month)
+
+The repo ships a `render.yaml` blueprint. One-time setup:
+
+1. Sign up at [render.com](https://render.com) with your GitHub account.
+2. New → Blueprint → pick the `ai-assessment` repository → Apply.
+3. In the dashboard, set the secret env vars (`APP_SECRET`, `ADMIN_EMAIL`,
+   `ADMIN_PASSWORD`, `APP_BASE_URL`, optionally `LLM_API_KEY`).
+4. Attach your domain in Settings → Custom Domains (HTTPS is automatic).
+
+Every `git push` to `main` redeploys automatically. Data (SQLite + PDFs) lives
+on a persistent disk and survives deploys and restarts. The free `trycloudflare`
+tunnel is only for local demos — don't put it in cold emails.
+
+### Self-hosted VPS (zero code changes)
+
+`npm ci && npm run build && npm start` behind Caddy/Nginx with TLS. Back up the
+`.data/` directory. Same env vars as above with `DATABASE_PATH` on a persistent
+volume.
+
+Note: Vercel's free tier prohibits commercial use — this project is a
+lead-generation tool, so use Render/Railway or a VPS instead.
+
+### Rollback
+
 - **Deploy:** set env vars from `.env.example` (notably `APP_BASE_URL`, `APP_SECRET`,
   `ADMIN_EMAIL/PASSWORD`, `DATABASE_PATH`, and optionally `LLM_*` / `EMAIL_*`), then
   `npm ci && npm run build && npm start`. Migrations apply automatically on boot.
