@@ -1,0 +1,15 @@
+# Docker deployment: put your real env values in .env.local next to this file,
+# then `docker compose up -d --build`. Site: http://<host>:3000
+# (Add a reverse proxy with TLS — e.g. Caddy — or run behind a tunnel for HTTPS.)
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      DATABASE_PATH: /app/.data/app.db
+    volumes:
+      - ./data:/app/.data
